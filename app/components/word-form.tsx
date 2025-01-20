@@ -1,35 +1,29 @@
 "use client";
 import { useState } from "react";
+import { createGame } from "../actions";
 import { useRouter } from "next/navigation";
 
+
 const WordForm = () => {
-  const [word, setWord] = useState("");
+  const [word, setWord] = useState<string>("");
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    try {
-      const response = await fetch("api/create-game", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ word }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create game");
-      }
-
-      const data = await response.json();
-      router.push(`/game/${data.id}`);
-    } catch (error) {
-      console.error("Failed to create game", error);
+    if(!word || word.trim() === "") {
+      alert("Please enter a word or phrase.");
+      return;
     }
-  };
+    
+    try {
+      const res =  await createGame(word);
+      router.push(`/game/${res.public_id}`);
+    } catch (error) {
+      throw new Error(`Error creating game: ${error}`);
+    }
+  }
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
+    <form className="space-y-4" onSubmit={submitForm}>
       <div className="space-y-2">
         <label
           htmlFor="word"
