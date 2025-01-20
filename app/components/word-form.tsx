@@ -6,8 +6,30 @@ const WordForm = () => {
   const [word, setWord] = useState("");
   const router = useRouter();
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("api/create-game", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ word }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create game");
+      }
+
+      const data = await response.json();
+      router.push(`/game/${data.id}`);
+    } catch (error) {
+      console.error("Failed to create game", error);
+    }
+  };
   return (
-    <form className="space-y-4">
+    <form className="space-y-4" onSubmit={handleSubmit}>
       <div className="space-y-2">
         <label
           htmlFor="word"
