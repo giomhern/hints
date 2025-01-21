@@ -18,7 +18,8 @@ export async function createGame(word: string) {
     }
 
     console.log("Redirecting to:", `/game/${data.public_id}`);
-    return data;
+    const playerUrl = `/game/${data.public_id}?role=player`;
+    return { data, playerUrl };
   } catch (error) {
     throw new Error(`Error creating game: ${error}`);
   }
@@ -28,7 +29,7 @@ export async function fetchGame(publicId: string) {
   try {
     const { data, error } = await supabase
       .from("games")
-      .select("words, guesses, finished")
+      .select("word, guesses, finished")
       .eq("public_id", publicId)
       .single();
 
@@ -45,7 +46,7 @@ export async function makeGuess(publicId: string, guess: string) {
   try {
     const { data, error } = await supabase
       .from("games")
-      .select("guesses, word,finished")
+      .select("guesses, word, finished")
       .eq("public_id", publicId)
       .single();
 
@@ -55,16 +56,19 @@ export async function makeGuess(publicId: string, guess: string) {
 
     const isCorrect = data.word.toUpperCase() === guess.toUpperCase();
 
-    const { error: updateError } = await supabase.from("games").update({
-      guesses: [...data.guesses, guess],
-      finished: isCorrect,
-    });
+    const { error: updateError } = await supabase
+      .from("games")
+      .update({
+        guesses: [...data.guesses, guess],
+        finished: isCorrect,
+      })
+      .eq("public_id", publicId);
 
     if (updateError) {
       throw new Error(`Error updating game: ${updateError.message}`);
     }
 
-    return { isCorrect, guesses: [...data.guesses, guess] };
+    return { isCorrect, guesses: [...(data.guesses || []), guess] };
   } catch (error) {
     throw new Error(`Error making guess: ${error}`);
   }

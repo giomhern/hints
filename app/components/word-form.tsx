@@ -3,25 +3,25 @@ import { useState } from "react";
 import { createGame } from "../actions";
 import { useRouter } from "next/navigation";
 
-
 const WordForm = () => {
   const [word, setWord] = useState<string>("");
+  const [gameLink, setGameLink] = useState<string>("");
   const router = useRouter();
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(!word || word.trim() === "") {
+    if (!word || word.trim() === "") {
       alert("Please enter a word or phrase.");
       return;
     }
-    
+
     try {
-      const res =  await createGame(word);
-      router.push(`/game/${res.public_id}`);
+      const { data, playerUrl } = await createGame(word);
+      router.push(`/game/${data.public_id}`);
     } catch (error) {
       throw new Error(`Error creating game: ${error}`);
     }
-  }
+  };
   return (
     <form className="space-y-4" onSubmit={submitForm}>
       <div className="space-y-2">
@@ -41,7 +41,7 @@ const WordForm = () => {
           onChange={(e) => setWord(e.target.value)}
           placeholder="e.g. hello world"
         />
-      </div>
+      </div> 
       <button
         type="submit"
         style={{ fontFamily: "var(--font-jersey)" }}
