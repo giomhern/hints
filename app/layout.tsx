@@ -2,19 +2,17 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Jersey_15, Outfit } from "next/font/google";
 import "./globals.css";
 
-
 const jersey = Jersey_15({
   variable: "--font-jersey",
   subsets: ["latin"],
-  weight: "400"
-})
+  weight: "400",
+});
 
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
-  weight: "400"
-})
-
+  weight: "400",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,9 +37,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${jersey.variable} ${outfit.variable} antialiased`}
+        className={`${jersey.variable} ${outfit.variable} antialiased min-h-screen flex flex-col`}
       >
-        {children}
+        <header className="py-4">
+          <h1
+            className="text-5xl font-bold text-gray-700 text-center"
+            style={{ fontFamily: "var(--font-jersey)" }}
+          >
+            hints
+          </h1>
+        </header>
+        <main className="flex-grow flex items-center justify-center">
+          {children}
+        </main>
       </body>
     </html>
   );

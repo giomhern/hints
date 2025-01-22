@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 const WordForm = () => {
   const [word, setWord] = useState<string>("");
-  const [gameLink, setGameLink] = useState<string>("");
   const router = useRouter();
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
