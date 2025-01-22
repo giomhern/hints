@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {Jersey_15, Outfit } from "next/font/google";
+import { Jersey_15, Outfit } from "next/font/google";
 import "./globals.css";
 
 const jersey = Jersey_15({
@@ -13,7 +13,6 @@ const outfit = Outfit({
   subsets: ["latin"],
   weight: "400",
 });
-
 
 export const metadata: Metadata = {
   title: "hints",
