@@ -15,7 +15,7 @@ const WordForm = () => {
     }
 
     try {
-      const { data, playerUrl } = await createGame(word);
+      const { data } = await createGame(word);
       router.push(`/game/${data.public_id}`);
     } catch (error) {
       throw new Error(`Error creating game: ${error}`);

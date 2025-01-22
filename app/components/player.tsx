@@ -8,7 +8,7 @@ interface PlayerProps {
 }
 
 const Player = ({ gameId }: PlayerProps) => {
-  const { word, guesses, isFinished, isLoading, error } = useGame(gameId);
+  const { word, guesses, isFinished } = useGame(gameId);
   const [guess, setGuess] = useState<string>("");
   const [submitError, setSubmitError] = useState<string | null>("");
 
@@ -58,7 +58,8 @@ const Player = ({ gameId }: PlayerProps) => {
             className="text-gray-800 text-lg"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
-            Congrats! You guessed it baby! And so will you? hehe (p.s I love you)
+            Congrats! You guessed it baby! And so will you? hehe (p.s I love
+            you)
           </p>
         </div>
       ) : (

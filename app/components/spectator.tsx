@@ -6,7 +6,7 @@ interface SpectatorProps {
 }
 
 const Spectator = ({ gameId }: SpectatorProps) => {
-  const { word, guesses, isFinished, isLoading, error } = useGame(gameId);
+  const { word, guesses } = useGame(gameId);
 
   const guessedLetters = guesses.join("").toLowerCase();
 
