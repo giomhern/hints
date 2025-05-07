@@ -24,6 +24,3 @@ That's it! Run your dev server:
 ```
 npm run dev
 ```
-
-## Email 
-Feel free to contact me at giovannimhern@uchicago.edu. I may not reply to all of them, but I will read all of them. 
